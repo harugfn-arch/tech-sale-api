@@ -3,33 +3,55 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-// route trang chủ
-app.get("/", (req, res) => {
-  res.send("Backend API is running");
-});
+app.use(express.json());
 
-// dữ liệu users
-const users = [
+let users = [
   { id: 1, name: "Nguyen Van A" },
   { id: 2, name: "Tran Thi B" },
   { id: 3, name: "Le Van C" }
 ];
 
-// lấy tất cả users
+// GET tất cả user
 app.get("/users", (req, res) => {
   res.json(users);
 });
 
-// lấy user theo id
+// GET user theo id
 app.get("/users/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const user = users.find(u => u.id === id);
+  res.json(user);
+});
 
-  if (!user) {
-    return res.status(404).json({ message: "User không tồn tại" });
+// POST thêm user
+app.post("/users", (req, res) => {
+  const newUser = {
+    id: users.length + 1,
+    name: req.body.name
+  };
+
+  users.push(newUser);
+  res.json(newUser);
+});
+
+// PUT sửa user
+app.put("/users/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const user = users.find(u => u.id === id);
+
+  if (user) {
+    user.name = req.body.name;
   }
 
   res.json(user);
+});
+
+// DELETE user
+app.delete("/users/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  users = users.filter(u => u.id !== id);
+
+  res.json({ message: "User deleted" });
 });
 
 app.listen(port, () => {
