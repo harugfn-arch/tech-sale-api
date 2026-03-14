@@ -8,22 +8,30 @@ app.get("/", (req, res) => {
   res.send("Backend API is running");
 });
 
-// route users
-const axios = require("axios");
+// dữ liệu users
+const users = [
+  { id: 1, name: "Nguyen Van A" },
+  { id: 2, name: "Tran Thi B" },
+  { id: 3, name: "Le Van C" }
+];
 
-app.get("/users", async (req, res) => {
-  try {
-    const response = await axios.get(
-      "https://69aa70bbe051e9456fa157d1.mockapi.io/users"
-    );
+// lấy tất cả users
+app.get("/users", (req, res) => {
+  res.json(users);
+});
 
-    res.json(response.data);
+// lấy user theo id
+app.get("/users/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const user = users.find(u => u.id === id);
 
-  } catch (error) {
-    res.status(500).json({ message: "Lỗi khi lấy dữ liệu" });
+  if (!user) {
+    return res.status(404).json({ message: "User không tồn tại" });
   }
+
+  res.json(user);
 });
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });
