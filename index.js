@@ -1,10 +1,11 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(express.json());
-
 let users = [
   { id: 1, name: "Nguyen Van A" },
   { id: 2, name: "Tran Thi B" },
