@@ -39,12 +39,19 @@ app.get("/users/:id", (req, res) => {
 });
 
 // Thêm user
+let currentId = users.length
+  ? Math.max(...users.map(u => u.id))
+  : 0;
+
 app.post("/users", (req, res) => {
+  currentId++;
+
   const newUser = {
-    id: Date.now(),
+    id: currentId,
     name: req.body.name,
     email: req.body.email
   };
+
   users.push(newUser);
   res.json(newUser);
 });
