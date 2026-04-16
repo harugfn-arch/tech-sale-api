@@ -16,5 +16,5 @@ app.use("/api/products", require("./routes/product.routes"));
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server chạy http://localhost:${PORT}`);
+  console.log(`Server chạy cổng ${PORT}`);
 });
