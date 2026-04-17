@@ -16,9 +16,20 @@ const createUser = async (req, res) => {
   try {
     const { name, email } = req.body;
 
+    if (typeof name !== "string" || !name.trim()) {
+      return res.status(400).json({ error: "name is required and must be a non-empty string" });
+    }
+
+    if (typeof email !== "string" || !email.trim()) {
+      return res.status(400).json({ error: "email is required and must be a non-empty string" });
+    }
+
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+
     await pool.query(
       "INSERT INTO users (name, email, password_hash) VALUES (?, ?, '123')",
-      [name, email]
+      [trimmedName, trimmedEmail]
     );
 
     res.json({ message: "User created" });
