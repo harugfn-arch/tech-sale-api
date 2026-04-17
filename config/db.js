@@ -34,6 +34,7 @@ const pool = mysql.createPool({
         connection.release();
     } catch (err) {
         console.error('❌ Lỗi hệ thống:', err.message);
+        process.exit(1);
     }
 })();
 
