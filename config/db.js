@@ -5,9 +5,14 @@ const path = require('path');
 
 dotenv.config({ path: path.join(process.cwd(), '.env') });
 
+const parsedDbPort = process.env.DB_PORT
+    ? Number.parseInt(process.env.DB_PORT, 10)
+    : undefined;
+const dbPort = Number.isNaN(parsedDbPort) ? undefined : parsedDbPort;
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    port: dbPort,
     user: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
