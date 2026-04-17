@@ -6,7 +6,8 @@ const getUsers = async (req, res) => {
     const [rows] = await pool.query("SELECT * FROM users");
     res.json(rows);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -22,7 +23,8 @@ const createUser = async (req, res) => {
 
     res.json({ message: "User created" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Error creating user:", err);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
